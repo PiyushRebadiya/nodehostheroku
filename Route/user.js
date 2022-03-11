@@ -6,7 +6,7 @@ const auth = require("../middleware/auth")
 
 router.post("/register", userController.user_create);
 router.post("/connect", mobileController.mobile_user_create);
-router.get("/", userController.user_all);
+router.get("/", userController.user_all); 
 router.get("/data",auth, userController.showData);
 router.post("/login", userController.login_user_fun);
 router.get("/register/:productId", userController.user_details);
