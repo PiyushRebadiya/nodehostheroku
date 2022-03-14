@@ -26,7 +26,7 @@ const mobile_user_create = async (req, res) => {
               "status":true,
               "data": [{mobile_number:mobile_number_code,token:token}],
               "code": code
-          });
+          }); 
       
         } catch (error) {
           console.log("error", error);
