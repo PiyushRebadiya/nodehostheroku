@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
 
 const MobileSchema = new mongoose.Schema({
-    mobile_number: Number,
-    token: String
+    mobile_number: Number
 })
 
 
