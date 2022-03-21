@@ -20,6 +20,29 @@ const mobile_user_create = async (req, res) => {
 
 
         console.log("data",data);
+      
+        try {
+          const token = jwt.sign(
+            {mobile_number: mobile_number_code },
+            process.env.SECRET_KEY,
+            {
+              expiresIn: "2h",
+            }
+          );
+      
+          res.cookie(`jwToken`, token);
+      
+          // user
+          res.status(200).json({
+              "status":true,
+              "data": [{mobile_number:mobile_number_code,token:token}],
+              "code": code
+          }); 
+      
+        } catch (error) {
+          console.log("error", error);
+      
+        }
 
     }
 
