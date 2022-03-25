@@ -33,7 +33,7 @@ app.use(cookieParser());
 //     // limits:{fileSize:100000} 
 // })
 
-app.use('/profile',express.static('images'))
+app.use('/profile',express.static('./images'))
 // app.post("/upload",upload.single('profile'),(req,res)=>{
 //     res.json({
 //         success:1,

@@ -13,7 +13,7 @@ const profile_Controller = require("../controller/profile")
 
 const auth = require("../middleware/auth")
 
-app.use('/profile',express.static('images'))
+app.use('/profile',express.static('../images'))
 
 // router.post("/register", userController.user_create);
 router.post("/register", mobileController.mobile_user_create);
