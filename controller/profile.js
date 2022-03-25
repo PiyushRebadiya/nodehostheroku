@@ -21,12 +21,11 @@ const user_profile_all = async (req, res) => {
 }
 
 var userprofile = (req, res) => {
-  // console.log("+++++++++++++req",req);
   // console.log("+++++++++++++res",res);
   // res.setHeader('Content-Type', 'image/png');
   res.json({
     success:true,
-    profile_url:`${process.env.URL}/profile/image/${req.file.filename}`
+    profile_url:`${process.env.URL}/profile/${req.file.filename}`
 })
   console.log("fileDetailes",req.file);
     // res.json({message:'uploaded'});
