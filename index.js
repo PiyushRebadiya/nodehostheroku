@@ -21,6 +21,7 @@ mongoose.connect(
 
 app.use(express.json())
 app.use(cookieParser());
+app.use(cors());
 
 // // Storage engine
 // const storage = multer.diskStorage({
