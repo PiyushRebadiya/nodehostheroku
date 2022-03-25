@@ -1,6 +1,8 @@
 const dotenv = require("dotenv")
 const cors = require("cors")
 const jwt = require("jsonwebtoken")
+const express = require('express')
+const mongoose = require('mongoose')
 
 const userRoutes = require("./Route/user")
 const app = express();
