@@ -46,4 +46,4 @@ app.use('/profile',express.static('./images'))
 // })
 app.use("/", userRoutes);
 
-app.listen(process.env.LOCAL_PORT || 8000, () => console.log("Server ready 8000"))
+app.listen(process.env.PORT || 8000, () => console.log("Server ready 8000"))
