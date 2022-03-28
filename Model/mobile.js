@@ -2,7 +2,9 @@ const mongoose = require('mongoose');
 
 const MobileSchema = new mongoose.Schema({
     mobile_number: Number,
-    password: Number
+    password: Number,
+    displayImage: String,
+    logoImage: String
 })
 
 
