@@ -31,8 +31,11 @@ const mobile_user_create = async (req, res) => {
         res.status(200).json({
           "status": true,
           "data": [{
+            displayImage: mobile_number_code.displayImage,
+            logoImage: mobile_number_code.displayImage,
             mobile_number: mobile_number_code.mobile_number,
-            password: 123456,
+            password: mobile_number_code.password,
+            userId: mobile_number_code._id,
             token: token
           }]
         });
@@ -62,8 +65,11 @@ const mobile_user_create = async (req, res) => {
         res.status(200).json({
           "status": true,
           "data": [{
-            mobile_number: mobile_number_code.mobile_number,
-            password: 123456,
+            displayImage: usersMobileData[0].displayImage,
+            logoImage: usersMobileData[0].logoImage,
+            mobile_number: usersMobileData[0].mobile_number,
+            password: usersMobileData[0].password,
+            userId: usersMobileData[0]._id,
             token: token
           }]
         });
@@ -80,6 +86,27 @@ const mobile_user_create = async (req, res) => {
 
 }
 
+const mobile_user_update = async (req, res) => {
+  const users = {
+    mobile_number: req.body.mobile_number,
+    password: req.body.password,
+    displayImage: req.body.displayImage,
+    logoImage: req.body.logoImage,
+  }
+
+    try {
+
+      const updateUsers = await Mobile.findByIdAndUpdate(
+        { _id: req.params.id },
+        users
+      );
+      res.json(updateUsers);
+    } catch (error) {
+      res.json({ message: error });
+    }
+
+}
+
 
 const mobile_user_all = async (req, res) => {
   try {
@@ -92,5 +119,6 @@ const mobile_user_all = async (req, res) => {
 }
 module.exports = {
   mobile_user_create,
-  mobile_user_all
+  mobile_user_all,
+  mobile_user_update
 }

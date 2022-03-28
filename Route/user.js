@@ -13,10 +13,10 @@ const profile_Controller = require("../controller/profile")
 
 const auth = require("../middleware/auth")
 
-app.use('/profile',express.static('../images'))
 
 // router.post("/register", userController.user_create);
 router.post("/register", mobileController.mobile_user_create);
+router.put("/register/:id", mobileController.mobile_user_update);
 router.get("/register", mobileController.mobile_user_all);
 router.get("/profile", profile_Controller.user_profile_all);
 // router.post("/profile", profile_Controller.user_profile_create);
@@ -52,7 +52,6 @@ var storage = multer.diskStorage({
         }
 });
 var upload = multer({storage:storage });
-
-router.post("/profile", upload.single("profile"), profile_Controller.userprofile);
+router.post("/profile/:id", upload.single("image"), profile_Controller.userprofile);
 
 module.exports = router;
