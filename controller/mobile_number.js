@@ -8,7 +8,7 @@ const mobile_user_create = async (req, res) => {
   if (/^\d{10}$/.test(req.body.mobile_number)) {
 
     if (req.body.password && req.body.mobile_number) {
-     return verify_password(req,res)
+      return verify_password(req, res)
     }
 
     return res.status(201).send({ message: "Successfully" })
@@ -20,14 +20,16 @@ const mobile_user_create = async (req, res) => {
 
 }
 
-async function verify_password (req,res){
+async function verify_password(req, res) {
   if (/^\d{6}$/.test(req.body.password)) {
     const usersMobileData = await Mobile.find({ mobile_number: req.body.mobile_number })
     if (usersMobileData && usersMobileData.length == 0) {
 
       let mobile_number_code = await new Mobile({
         mobile_number: req.body.mobile_number,
-        password: req.body.password
+        password: req.body.password,
+        displayImage: "",
+        logoImage: ""
       });
 
       try {
