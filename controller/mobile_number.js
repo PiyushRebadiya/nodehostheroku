@@ -15,7 +15,7 @@ const mobile_user_create = async (req, res) => {
     return res.send({ message: "Successfully" })
 
   } else {
-    return res.send({ message: "*Enter your valid 10 digit number" })
+    return res.send({ message: "Enter your valid 10 digit number" })
   }
 } else {
    return res.send({ message: "Reqiured mobile number" })
