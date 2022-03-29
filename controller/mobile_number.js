@@ -5,6 +5,7 @@ const fast2sms = require('fast-two-sms')
 const mobile_user_create = async (req, res) => {
 
 
+ if(req.body.mobile_number.length > 0 || req.body.mobile_number != undefined) {
   if (/^\d{10}$/.test(req.body.mobile_number)) {
 
     if (req.body.password && req.body.mobile_number) {
@@ -14,13 +15,17 @@ const mobile_user_create = async (req, res) => {
     return res.status(201).send({ message: "Successfully" })
 
   } else {
-    return res.status(404).send({ message: "Please Enter 10 digit mobile number" })
+    return res.send({ message: "Please Enter 10 digit mobile number" })
   }
+} else {
+   return res.send({ message: "Reqiured mobile number" })
+ }
 
 
 }
 
 async function verify_password(req, res) {
+ if(req.body.password.length > 0  || req.body.password != undefined) {
   if (/^\d{6}$/.test(req.body.password)) {
     const usersMobileData = await Mobile.find({ mobile_number: req.body.mobile_number })
     if (usersMobileData && usersMobileData.length == 0) {
@@ -58,7 +63,7 @@ async function verify_password(req, res) {
 
       } catch (error) {
         // console.log("error", error);
-        res.error({ message: "please check your password..." })
+        res.error({ message: "please check your password" })
 
       }
     } else {
@@ -97,13 +102,17 @@ async function verify_password(req, res) {
           res.status(404).send({ message: error })
         }
       } else {
-        res.status(404).send({ message: "Please Enter Your True Password..." })
+        res.status(404).send({ message: "Please Enter Your True Password" })
       }
 
     }
   } else {
-    res.status(404).send({ message: "Please Enter 6 Digit Verify Number..." })
+   return res.status(404).send({ message: "Please Enter 6 Digit Verify Number" })
   }
+} else {
+   return res.status(404).send({ message: "Reqiured Verify Number" })
+
+ }
 }
 
 const mobile_user_update = async (req, res) => {
