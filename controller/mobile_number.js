@@ -8,7 +8,7 @@ const mobile_user_create = async (req, res) => {
  if(req.body.mobile_number.length > 0 || req.body.mobile_number != undefined) {
   if (/^\d{10}$/.test(req.body.mobile_number)) {
 
-    if (req.body.password && req.body.mobile_number) {
+    if (req.body.password && req.body.mobile_number || req.body.password == "") {
       return verify_password(req, res)
     }
 
