@@ -12,10 +12,10 @@ const mobile_user_create = async (req, res) => {
       return verify_password(req, res)
     }
 
-    return res.status(201).send({ message: "Successfully" })
+    return res.send({ message: "Successfully" })
 
   } else {
-    return res.send({ message: "Please Enter 10 digit mobile number" })
+    return res.send({ message: "*Enter your valid 10 digit number" })
   }
 } else {
    return res.send({ message: "Reqiured mobile number" })
@@ -50,7 +50,7 @@ async function verify_password(req, res) {
         res.cookie(`jwToken`, token);
 
         // user
-        res.status(200).json({
+        res.json({
           "status": true,
           "data": [{
             displayImage: mobile_number_code.displayImage,
@@ -85,7 +85,7 @@ async function verify_password(req, res) {
           res.cookie(`jwToken`, token);
 
           // user
-          res.status(200).json({
+          res.json({
             "status": true,
             "data": [{
               displayImage: usersMobileData[0].displayImage,
@@ -99,18 +99,18 @@ async function verify_password(req, res) {
         } catch (error) {
           // console.log("error", error);
 
-          res.status(404).send({ message: error })
+          res.send({ message: error })
         }
       } else {
-        res.status(404).send({ message: "Please Enter Your True Password" })
+        res.send({ message: "Please Enter Your True Password" })
       }
 
     }
   } else {
-   return res.status(404).send({ message: "Please Enter 6 Digit Verify Number" })
+   return res.send({ message: "Please Enter 6 Digit Verify Number" })
   }
 } else {
-   return res.status(404).send({ message: "Reqiured Verify Number" })
+   return res.send({ message: "Reqiured Verify Number" })
 
  }
 }
