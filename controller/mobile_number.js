@@ -136,6 +136,14 @@ const mobile_user_update = async (req, res) => {
 
 }
 
+const mobile_user_delete = async(req,res) => {
+  try {
+    const delete_mobile_user = await Mobile.findByIdAndDelete(req.params.id);
+    res.json(delete_mobile_user)
+} catch (error) {
+    res.send({ message: error })
+}
+}
 
 const mobile_user_all = async (req, res) => {
   try {
@@ -149,5 +157,6 @@ const mobile_user_all = async (req, res) => {
 module.exports = {
   mobile_user_create,
   mobile_user_all,
-  mobile_user_update
+  mobile_user_update,
+  mobile_user_delete
 }
