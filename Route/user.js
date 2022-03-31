@@ -10,6 +10,7 @@ const Controller_banner = require("../controller/controller_banner")
 const home_page_Controller = require("../controller/home_page")
 const home_greeting_Controller = require("../controller/home_greeting")
 const profile_Controller = require("../controller/profile")
+const categoryController = require('../controller/category_controller');
 
 const auth = require("../middleware/auth")
 
@@ -37,6 +38,12 @@ router.get("/greeting/image",auth, home_greeting_Controller.home_greeting_image_
 // router.get("/register/:productId", userController.user_details);
 // router.put("/register/:productId", userController.user_update);
 // router.delete("/register/:productId", userController.user_delete);
+
+
+router.get("/category" ,categoryController.all_category)
+router.post("/category" ,categoryController.create_category)
+router.put("/category/:id" ,categoryController.update_category)
+router.delete("/category/:id" ,categoryController.delete_category)
 
 // //Add Image
 var storage = multer.diskStorage({
