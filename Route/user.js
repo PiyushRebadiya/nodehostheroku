@@ -10,6 +10,8 @@ const Controller_banner = require("../controller/controller_banner")
 const home_page_Controller = require("../controller/home_page")
 const home_greeting_Controller = require("../controller/home_greeting")
 const profile_Controller = require("../controller/profile")
+
+const business_Controller = require("../controller/controller_business")
 const categoryController = require('../controller/category_controller');
 
 const auth = require("../middleware/auth")
@@ -22,6 +24,11 @@ router.delete("/register/:id", mobileController.mobile_user_delete);
 router.get("/register", mobileController.mobile_user_all);
 router.get("/profile", profile_Controller.user_profile_all);
 // router.post("/profile", profile_Controller.user_profile_create);
+
+router.get("/business",auth, business_Controller.businness_get_all);
+router.post("/business/:id",auth, business_Controller.businness_create);
+router.delete("/business/:id",auth, business_Controller.businness_delete);
+router.put("/business/:id",auth, business_Controller.businness_update);
 
 // router.get("/", userController.user_all); 
 router.get("/data",auth, userController.showData);
