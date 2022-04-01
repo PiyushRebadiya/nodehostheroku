@@ -46,19 +46,33 @@ const create_category = async (req, res) => {
 }
 
 const update_category = async (req, res) => {
-    try {
-        const category = {
-            category: req.body.category
+
+    let str = req.body.category;
+    let category_res = str.trim();
+    
+    let find_category = await Category.find({ category: req.body.category })
+
+    if(req.body.category != "" && req.body.category != undefined && category_res.length > 0){
+        if(find_category.length === 0){
+            try {
+                const category = {
+                    category: req.body.category
+                }
+                const categoryUpdate = await Category.findByIdAndUpdate(
+                    {
+                        _id: req.params.id
+                    },
+                    category
+                )
+                res.json(categoryUpdate)
+            } catch (error) {
+                res.json({ message: error })
+            }
+        }else{
+            return res.send({ message: "Already this category is added" })
         }
-        const categoryUpdate = await Category.findByIdAndUpdate(
-            {
-                _id: req.params.id
-            },
-            category
-        )
-        res.json(categoryUpdate)
-    } catch (error) {
-        res.json({ message: error })
+    }else{
+        return res.send({ message: "Please Enter Your Category" })
     }
 }
 
