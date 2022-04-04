@@ -154,36 +154,33 @@ const mobile_user_delete = async (req,res) => {
 }
 
 const mobile_user_all = async (req, res) => {
-
-  try {
-    let { offset, limit } = req.query;
-
-    if (!offset) {
-      offset = 1
+  let { offset, limit } = req.query;
+  if(offset && limit){
+    try {
+      const mobile_user = await Mobile.find().limit(limit).skip(offset);
+      const mobile_user_count = await Mobile.find();
+      res.clearCookie(`jwToken`);
+      res.json({
+        offset,
+        limit,
+        count : mobile_user_count.length,
+        data: mobile_user
+      })
+    } catch (error) {
+      res.json({ message: error });
     }
-    if (!limit) {
-      limit = 10
+  }else{
+    try {
+      const mobile_user_count = await Mobile.find();
+      res.clearCookie(`jwToken`);
+      res.json({
+        data: mobile_user_count
+      })
+    } catch (error) {
+      res.json({ message: error });
     }
-
-    const limits = parseInt(limit);
-    const offsets = (offset - 1) * limit;
-
-    const mobile_user = await Mobile.find().limit(limits).skip(offsets);
-    const mobile_user_count = await Mobile.find();
-    console.log("mobile_user_count",mobile_user_count.length);
-
-    res.clearCookie(`jwToken`);
-    res.json({
-      offset,
-      limit,
-      count : mobile_user_count.length,
-      data: mobile_user
-    })
-
-
-  } catch (error) {
-    res.json({ message: error });
   }
+
 }
 module.exports = {
   mobile_user_create,
