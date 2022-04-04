@@ -33,8 +33,7 @@ async function verify_password(req, res) {
       let mobile_number_code = await new Mobile({
         mobile_number: req.body.mobile_number,
         password: req.body.password,
-        displayImage: "",
-        logoImage: ""
+        displayImage: ""
       });
 
       try {
@@ -54,7 +53,6 @@ async function verify_password(req, res) {
           "status": true,
           "data": [{
             displayImage: mobile_number_code.displayImage,
-            logoImage: mobile_number_code.displayImage,
             mobile_number: mobile_number_code.mobile_number,
             userId: mobile_number_code._id,
             token: token
@@ -89,7 +87,6 @@ async function verify_password(req, res) {
             "status": true,
             "data": [{
               displayImage: usersMobileData[0].displayImage,
-              logoImage: usersMobileData[0].logoImage,
               mobile_number: usersMobileData[0].mobile_number,
               userId: usersMobileData[0]._id,
               token: token
@@ -120,7 +117,6 @@ const mobile_user_update = async (req, res) => {
     mobile_number: req.body.mobile_number,
     password: req.body.password,
     displayImage: req.body.displayImage,
-    logoImage: req.body.logoImage,
   }
 
   try {

@@ -9,8 +9,17 @@ const businness_get_all = async (req, res) => {
     }
 }
 
+const businness_get_details = async (req, res) => {
+    try {
+        const bussines_get_data = await Bussiness.findById(req.params.id)
+        res.json(bussines_get_data)
+    } catch (error) {
+        res.json({ message: error });
+    }
+}
+
 const businness_create = async (req, res) => {
-    let { mobile_Number, company_Name, company_Email_Address, company_Website_Optional, company_Address, select_Bussiness_Category, company_Description, second_Mobile_Number } = req.body
+    let { mobile_Number, company_Name, company_Email_Address, company_Website_Optional, company_Address, select_Bussiness_Category, company_Description, second_Mobile_Number, logoImage } = req.body
     var emailRegex = /^[-!#$%&'*+\/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/;
     if (mobile_Number.length == 0) {
         res.send({ messsage: "Required Mobile Number" })
@@ -40,6 +49,7 @@ const businness_create = async (req, res) => {
             select_Bussiness_Category: select_Bussiness_Category,
             company_Description: company_Description || "",
             second_Mobile_Number: second_Mobile_Number || "",
+            logoImage: logoImage || ""
         })
 
         if (data) {
@@ -52,7 +62,7 @@ const businness_create = async (req, res) => {
 }
 
 const businness_update = async (req, res) => {
-    let { mobile_Number, company_Name, company_Email_Address, company_Website_Optional, company_Address, select_Bussiness_Category, company_Description, second_Mobile_Number } = req.body
+    let { logoImage, mobile_Number, company_Name, company_Email_Address, company_Website_Optional, company_Address, select_Bussiness_Category, company_Description, second_Mobile_Number } = req.body
     var emailRegex = /^[-!#$%&'*+\/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/;
     if (mobile_Number?.length === 0) {
         return res.send({ messsage: "Required Mobile Number" })
@@ -80,6 +90,7 @@ const businness_update = async (req, res) => {
             select_Bussiness_Category: select_Bussiness_Category,
             company_Description: company_Description || "",
             second_Mobile_Number: second_Mobile_Number || "",
+            logoImage: logoImage || ""
         }
         try {
 
@@ -107,5 +118,6 @@ module.exports = {
     businness_get_all,
     businness_create,
     businness_update,
-    businness_delete
+    businness_delete,
+    businness_get_details
 }

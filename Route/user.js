@@ -26,6 +26,7 @@ router.get("/business",auth, business_Controller.businness_get_all);
 router.post("/business/:id",auth, business_Controller.businness_create);
 router.delete("/business/:id",auth, business_Controller.businness_delete);
 router.put("/business/:id",auth, business_Controller.businness_update);
+router.get("/business/:id",auth, business_Controller.businness_get_details);
 
 // router.get("/", userController.user_all); 
 router.get("/data",auth, userController.showData);
@@ -59,5 +60,6 @@ var storage = multer.diskStorage({
 });
 var upload = multer({storage:storage });
 router.post("/profile/:id", upload.single("image"), profile_Controller.userprofile);
+router.post("/profile", upload.single("image"), profile_Controller.userprofile);
 
 module.exports = router;
