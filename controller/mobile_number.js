@@ -1,6 +1,7 @@
 const Mobile = require("../Model/mobile")
 const jwt = require("jsonwebtoken")
 const fast2sms = require('fast-two-sms')
+const bcrypt = require('bcryptjs');
 
 const mobile_user_create = async (req, res) => {
 
@@ -25,7 +26,14 @@ const mobile_user_create = async (req, res) => {
 }
 
 async function verify_password(req, res) {
-  if(req.body.password.length > 0  || req.body.password != undefined) {
+
+// const passwordHash = await bcrypt.hash(req.body.password, 10);
+// console.log("passwordHash",passwordHash);
+
+// const passwordmatch = await bcrypt.compare(req.body.password, passwordHash);
+//  console.log("passwordmatch",passwordmatch);
+
+if(req.body.password.length > 0  || req.body.password != undefined) {
     if (/^\d{6}$/.test(req.body.password)) {
       const usersMobileData = await Mobile.find({ mobile_number: req.body.mobile_number })
       if (usersMobileData && usersMobileData.length == 0) {
