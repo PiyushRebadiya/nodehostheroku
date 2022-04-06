@@ -123,22 +123,40 @@ if(req.body.password.length > 0  || req.body.password != undefined) {
 }
 
 const mobile_user_update = async (req, res) => {
-  const users = {
-    mobile_number: req.body.mobile_number,
-    password: req.body.password,
-    displayImage: req.body.displayImage,
+
+  if(req.body.mobile_number.length > 0 || req.body.mobile_number != undefined) {
+    if (/^\d{10}$/.test(req.body.mobile_number)) {
+
+      try {
+        if (req.body.password.length > 0  || req.body.password != undefined) {
+          if (/^\d{6}$/.test(req.body.password)){
+            const users = {
+              mobile_number: req.body.mobile_number,
+              password: req.body.password,
+              displayImage: req.body.displayImage
+            }
+            const updateUsers = await Mobile.findByIdAndUpdate(
+                    { _id: req.params.id },
+                    users
+                  );
+                  res.json(updateUsers);
+          }else{
+            return res.send({ message: "Please Enter 6 Digit Verify Number" })
+          }
+        } else{
+          return res.send({ message: "Reqiured Verify Number" })
+       }
+      } catch (error) {
+        res.json({ message: error });
+      }
+    } else {
+      return res.send({ message: "Enter your valid 10 digit number" })
+    }
+  } else {
+    return res.send({ message: "Reqiured mobile number" })
   }
 
-  try {
 
-    const updateUsers = await Mobile.findByIdAndUpdate(
-      { _id: req.params.id },
-      users
-    );
-    res.json(updateUsers);
-  } catch (error) {
-    res.json({ message: error });
-  }
 
 }
 
