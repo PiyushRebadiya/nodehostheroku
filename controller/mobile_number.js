@@ -41,7 +41,8 @@ if(req.body.password.length > 0  || req.body.password != undefined) {
         let mobile_number_code = await new Mobile({
           mobile_number: req.body.mobile_number,
           password: req.body.password,
-          displayImage: ""
+          displayImage: "",
+          username : ""
         });
 
         try {
@@ -64,7 +65,7 @@ if(req.body.password.length > 0  || req.body.password != undefined) {
               displayImage: mobile_number_code.displayImage,
               mobile_number: mobile_number_code.mobile_number,
               userId: mobile_number_code._id,
-
+              username : mobile_number_code.username,
               token: token
             }]
           });
@@ -98,6 +99,7 @@ if(req.body.password.length > 0  || req.body.password != undefined) {
               "data": [{
                 displayImage: usersMobileData[0].displayImage,
                 mobile_number: usersMobileData[0].mobile_number,
+                username : usersMobileData[0].username,
                 userId: usersMobileData[0]._id,
                 token: token
               }]
@@ -133,7 +135,8 @@ const mobile_user_update = async (req, res) => {
             const users = {
               mobile_number: req.body.mobile_number,
               password: req.body.password,
-              displayImage: req.body.displayImage
+              displayImage: req.body.displayImage,
+              username : req.body.username
             }
             const updateUsers = await Mobile.findByIdAndUpdate(
                     { _id: req.params.id },
