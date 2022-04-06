@@ -61,9 +61,9 @@ if(req.body.password.length > 0  || req.body.password != undefined) {
             "status": true,
             "data": [{
 
-              displayImage: usersMobileData[0].displayImage,
-              mobile_number: usersMobileData[0].mobile_number,
-              userId: usersMobileData[0]._id,
+              displayImage: mobile_number_code.displayImage,
+              mobile_number: mobile_number_code.mobile_number,
+              userId: mobile_number_code._id,
 
               token: token
             }]
