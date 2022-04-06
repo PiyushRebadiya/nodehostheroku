@@ -10,6 +10,7 @@ const bussinessSchema = new mongoose.Schema({
     select_Bussiness_Category: String,
     company_Description: String,
     second_Mobile_Number: String,
+    logoImage: String
 })
 
 
