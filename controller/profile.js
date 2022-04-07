@@ -1,5 +1,6 @@
 
 const Profile = require("../Model/profile_model")
+const jwt = require("jsonwebtoken")
 const axios = require('axios');
 
 const user_profile_create = async (req, res) => {
