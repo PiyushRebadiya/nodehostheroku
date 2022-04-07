@@ -19,7 +19,7 @@ const auth = require("../middleware/auth")
 
 // router.post("/register", userController.user_create);
 router.post("/register", mobileController.mobile_user_create);
-router.put("/register",auth, mobileController.mobile_user_update);
+router.put("/register/:id",auth, mobileController.mobile_user_update);
 router.delete("/register/:id", mobileController.mobile_user_delete);
 router.get("/register", mobileController.mobile_user_all);
 router.get("/profile", auth,profile_Controller.user_profile_all);

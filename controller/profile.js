@@ -26,6 +26,7 @@ var userprofile = async(req, res) => {
       "success": true,
       "image": displayData
     })
+  // await  update_mobile_user(req.params.id, { "displayImage": displayData })
   } else if(req.body.type == 2) {
     let displayData = req.file && req.file.filename ? `${process.env.URL}/profile/${req.file.filename}` : ""
     res.json({
