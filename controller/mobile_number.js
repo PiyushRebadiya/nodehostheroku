@@ -6,7 +6,7 @@ const bcrypt = require('bcryptjs');
 const mobile_user_create = async (req, res) => {
 
 
-  if(req.body.mobile_number.length > 0 || req.body.mobile_number != undefined) {
+  if (req.body.mobile_number.length > 0 || req.body.mobile_number != undefined) {
     if (/^\d{10}$/.test(req.body.mobile_number)) {
 
       if (req.body.password && req.body.mobile_number || req.body.password == "") {
@@ -27,13 +27,13 @@ const mobile_user_create = async (req, res) => {
 
 async function verify_password(req, res) {
 
-// const passwordHash = await bcrypt.hash(req.body.password, 10);
-// console.log("passwordHash",passwordHash);
+  // const passwordHash = await bcrypt.hash(req.body.password, 10);
+  // console.log("passwordHash",passwordHash);
 
-// const passwordmatch = await bcrypt.compare(req.body.password, passwordHash);
-//  console.log("passwordmatch",passwordmatch);
+  // const passwordmatch = await bcrypt.compare(req.body.password, passwordHash);
+  //  console.log("passwordmatch",passwordmatch);
 
-if(req.body.password.length > 0  || req.body.password != undefined) {
+  if (req.body.password.length > 0 || req.body.password != undefined) {
     if (/^\d{6}$/.test(req.body.password)) {
       const usersMobileData = await Mobile.find({ mobile_number: req.body.mobile_number })
       if (usersMobileData && usersMobileData.length == 0) {
@@ -44,10 +44,16 @@ if(req.body.password.length > 0  || req.body.password != undefined) {
           displayImage: ""
         });
 
+
+        let mobile_number_code_jwt = {
+          mobile_number: mobile_number_code.mobile_number,
+          _id: mobile_number_code._id,
+        }
+
         try {
           await mobile_number_code.save()
           const token = jwt.sign(
-            mobile_number_code.toJSON(),
+            mobile_number_code_jwt.toJSON(),
             process.env.SECRET_KEY,
             {
               expiresIn: "1h",
@@ -60,11 +66,9 @@ if(req.body.password.length > 0  || req.body.password != undefined) {
           res.json({
             "status": true,
             "data": [{
-
-              displayImage: usersMobileData[0].displayImage,
-              mobile_number: usersMobileData[0].mobile_number,
-              userId: usersMobileData[0]._id,
-
+              displayImage: mobile_number_code.displayImage,
+              mobile_number: mobile_number_code.mobile_number,
+              userId: mobile_number_code._id,
               token: token
             }]
           });
@@ -76,10 +80,11 @@ if(req.body.password.length > 0  || req.body.password != undefined) {
         }
       } else {
         if (usersMobileData[0].password == req.body.password) {
+
           let mobile_number_code = {
-            mobile_number: req.body.mobile_number,
-            password: req.body.password
-          };
+            mobile_number: usersMobileData[0].mobile_number,
+            _id: usersMobileData[0]._id,
+          }
 
           try {
             const token = jwt.sign(
@@ -123,44 +128,68 @@ if(req.body.password.length > 0  || req.body.password != undefined) {
 }
 
 const mobile_user_update = async (req, res) => {
+  let token = req.headers.cookie.slice(8)
+  const user = jwt.verify(token, process.env.SECRET_KEY);
 
-  if(req.body.mobile_number.length > 0 || req.body.mobile_number != undefined) {
-    if (/^\d{10}$/.test(req.body.mobile_number)) {
-
-      try {
-        if (req.body.password.length > 0  || req.body.password != undefined) {
-          if (/^\d{6}$/.test(req.body.password)){
-            const users = {
-              mobile_number: req.body.mobile_number,
-              password: req.body.password,
-              displayImage: req.body.displayImage
-            }
-            const updateUsers = await Mobile.findByIdAndUpdate(
-                    { _id: req.params.id },
-                    users
-                  );
-                  res.json(updateUsers);
-          }else{
-            return res.send({ message: "Please Enter 6 Digit Verify Number" })
-          }
-        } else{
-          return res.send({ message: "Reqiured Verify Number" })
-       }
-      } catch (error) {
-        res.json({ message: error });
-      }
-    } else {
-      return res.send({ message: "Enter your valid 10 digit number" })
-    }
-  } else {
+  if (typeof (req.body.mobile_number) !== 'undefined' && req?.body?.mobile_number?.length == 0) {
     return res.send({ message: "Reqiured mobile number" })
+
+  } else if (typeof (req.body.mobile_number) !== 'undefined' && !/^\d{10}$/.test(req.body.mobile_number)) {
+    return res.send({ message: "Enter your valid 10 digit number" })
+  } else if (typeof (req.body.password) !== 'undefined' && req.body.password.length == 0) {
+    return res.send({ message: "Reqiured Verify Number" })
+  } else if (typeof (req.body.password) !== 'undefined' && !/^\d{6}$/.test(req.body.password)) {
+    return res.send({ message: "Please Enter 6 Digit Verify Number" })
+  } else {
+    const users = {
+      mobile_number: req.body.mobile_number,
+      password: req.body.password,
+      displayImage: req.body.displayImage
+    }
+    const updateUsers = await Mobile.findByIdAndUpdate(
+      { _id: user._id },
+      users
+    );
+    res.json(updateUsers);
   }
+
+  // if (req.body.mobile_number.length > 0 || req.body.mobile_number != undefined) {
+  //   if (/^\d{10}$/.test(req.body.mobile_number)) {
+
+  //     try {
+  //       if (req.body.password.length > 0 || req.body.password != undefined) {
+  //         if (/^\d{6}$/.test(req.body.password)) {
+  //           const users = {
+  //             mobile_number: req.body.mobile_number,
+  //             password: req.body.password,
+  //             displayImage: req.body.displayImage
+  //           }
+  //           const updateUsers = await Mobile.findByIdAndUpdate(
+  //             { _id: user._id },
+  //             users
+  //           );
+  //           res.json(updateUsers);
+  //         } else {
+  //           return res.send({ message: "Please Enter 6 Digit Verify Number" })
+  //         }
+  //       } else {
+  //         return res.send({ message: "Reqiured Verify Number" })
+  //       }
+  //     } catch (error) {
+  //       res.json({ message: error });
+  //     }
+  //   } else {
+  //     return res.send({ message: "Enter your valid 10 digit number" })
+  //   }
+  // } else {
+  //   return res.send({ message: "Reqiured mobile number" })
+  // }
 
 
 
 }
 
-const mobile_user_delete = async (req,res) => {
+const mobile_user_delete = async (req, res) => {
   try {
     const delete_mobile_user = await Mobile.findByIdAndDelete(req.params.id);
     res.json(delete_mobile_user)
@@ -171,7 +200,7 @@ const mobile_user_delete = async (req,res) => {
 
 const mobile_user_all = async (req, res) => {
   let { offset, limit } = req.query;
-  if(offset && limit){
+  if (offset && limit) {
     try {
       const mobile_user = await Mobile.find().limit(limit).skip(offset);
       const mobile_user_count = await Mobile.find();
@@ -179,13 +208,13 @@ const mobile_user_all = async (req, res) => {
       res.json({
         offset,
         limit,
-        count : mobile_user_count.length,
+        count: mobile_user_count.length,
         data: mobile_user
       })
     } catch (error) {
       res.json({ message: error });
     }
-  }else{
+  } else {
     try {
       const mobile_user_count = await Mobile.find();
       res.clearCookie(`jwToken`);

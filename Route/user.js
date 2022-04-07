@@ -19,14 +19,14 @@ const auth = require("../middleware/auth")
 
 // router.post("/register", userController.user_create);
 router.post("/register", mobileController.mobile_user_create);
-router.put("/register/:id", mobileController.mobile_user_update);
+router.put("/register",auth, mobileController.mobile_user_update);
 router.delete("/register/:id", mobileController.mobile_user_delete);
 router.get("/register", mobileController.mobile_user_all);
-router.get("/profile", profile_Controller.user_profile_all);
+router.get("/profile", auth,profile_Controller.user_profile_all);
 // router.post("/profile", profile_Controller.user_profile_create);
 
 router.get("/business",auth, business_Controller.businness_get_all);
-router.post("/business/:id",auth, business_Controller.businness_create);
+router.post("/business",auth, business_Controller.businness_create);
 router.delete("/business/:id",auth, business_Controller.businness_delete);
 router.put("/business/:id",auth, business_Controller.businness_update);
 router.get("/business/:id",auth, business_Controller.businness_get_details);
@@ -68,7 +68,6 @@ var storage = multer.diskStorage({
         }
 });
 var upload = multer({storage:storage });
-router.post("/profile/:id", upload.single("image"), profile_Controller.userprofile);
-router.post("/profile", upload.single("image"), profile_Controller.userprofile);
+router.post("/profile",auth, upload.single("image"), profile_Controller.userprofile);
 
 module.exports = router;
