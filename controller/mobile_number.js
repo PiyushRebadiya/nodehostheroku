@@ -52,29 +52,32 @@ async function verify_password(req, res) {
         }
 
         try {
-          await mobile_number_code.save()
-          const token = jwt.sign(
-            mobile_number_code_jwt.toJSON(),
-            process.env.SECRET_KEY,
-            {
-              expiresIn: "1h",
-            }
-          );
+         let data =  await mobile_number_code.save()
+         if(data) {
 
-          res.cookie(`jwToken`, token);
-
-          // user
-          res.json({
-            "status": true,
-            "data": [{
-
-              displayImage: mobile_number_code.displayImage,
-              mobile_number: mobile_number_code.mobile_number,
-              userId: mobile_number_code._id,
-              username : mobile_number_code.username,
-              token: token
-            }]
-          });
+           const token = jwt.sign(
+             mobile_number_code_jwt,
+             process.env.SECRET_KEY,
+             {
+               expiresIn: "1h",
+             }
+           );
+ 
+           res.cookie(`jwToken`, token);
+ 
+           // user
+           res.json({
+             "status": true,
+             "data": [{
+ 
+               displayImage: mobile_number_code.displayImage,
+               mobile_number: mobile_number_code.mobile_number,
+               userId: mobile_number_code._id,
+               username : mobile_number_code.username,
+               token: token
+             }]
+           });
+         } 
 
         } catch (error) {
           // console.log("error", error);
