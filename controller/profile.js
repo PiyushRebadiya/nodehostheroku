@@ -23,10 +23,9 @@ var userprofile = async(req, res) => {
     let displayData = req.file && req.file.filename ? `${process.env.URL}/profile/${req.file.filename}` : ""
     res.json({
       "success": true,
-      "userId": req.params.id,
       "image": displayData
     })
-  await  update_mobile_user(req.params.id, { "displayImage": displayData })
+  // await  update_mobile_user(req.params.id, { "displayImage": displayData })
   } else if(req.body.type == 2) {
     let displayData = req.file && req.file.filename ? `${process.env.URL}/profile/${req.file.filename}` : ""
     res.json({
@@ -39,15 +38,6 @@ var userprofile = async(req, res) => {
   }
 };
 
-const update_mobile_user = async (id, data) => {
-  try {
-    await axios.put(`${process.env.URL}/register/${id}`, data);
-
-  } catch (error) {
-    console.log(error);
-
-  }
-}
 
 module.exports = {
   user_profile_create,

@@ -19,8 +19,9 @@ const businness_get_details = async (req, res) => {
 }
 
 const businness_create = async (req, res) => {
-    let { mobile_Number, company_Name, company_Email_Address, company_Website_Optional, company_Address, select_Bussiness_Category, company_Description, second_Mobile_Number, logoImage } = req.body
+    let { userId,mobile_Number, company_Name, company_Email_Address, company_Website_Optional, company_Address, select_Bussiness_Category, company_Description, second_Mobile_Number, logoImage } = req.body
     var emailRegex = /^[-!#$%&'*+\/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/;
+   
     if (mobile_Number.length == 0) {
         res.send({ messsage: "Required Mobile Number" })
     } else if (!/^\d{10}$/.test(mobile_Number)) {
@@ -40,7 +41,7 @@ const businness_create = async (req, res) => {
     } else {
 
         let data = await new Bussiness({
-            userId: req.params.id,
+            userId: userId,
             mobile_Number: mobile_Number,
             company_Name: company_Name,
             company_Email_Address: company_Email_Address,
