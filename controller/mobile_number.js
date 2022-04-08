@@ -178,7 +178,7 @@ const mobile_user_all = async (req, res) => {
     try {
       const mobile_user = await Mobile.find().limit(limit).skip(offset);
       const mobile_user_count = await Mobile.find();
-      res.clearCookie(`jwToken`);
+      // res.clearCookie(`jwToken`);
       res.json({
         offset,
         limit,
@@ -191,7 +191,7 @@ const mobile_user_all = async (req, res) => {
   } else {
     try {
       const mobile_user_count = await Mobile.find();
-      res.clearCookie(`jwToken`);
+      // res.clearCookie(`jwToken`);
       res.json({
         data: mobile_user_count
       })
