@@ -13,6 +13,7 @@ const user_profile_create = async (req, res) => {
 const user_profile_all = async (req, res) => {
   try {
     const user_profile = await Profile.find()
+    res.clearCookie(`jwToken`);
     res.json(user_profile)
   } catch (error) {
     res.json({ message: error });
