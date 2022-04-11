@@ -135,8 +135,8 @@ async function verify_password(req, res) {
 }
 
 const mobile_user_update = async (req, res) => {
-  let token = req.headers.cookie.slice(8)
-  const user = jwt.verify(token, process.env.SECRET_KEY);
+  // let token = req.headers.cookie.slice(8)
+  // const user = jwt.verify(token, process.env.SECRET_KEY);
 
   if (typeof (req.body.mobile_number) !== 'undefined' && req?.body?.mobile_number?.length == 0) {
     return res.send({ message: "Reqiured mobile number" })
