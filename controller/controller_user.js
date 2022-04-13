@@ -5,7 +5,7 @@ const axios = require('axios');
 const user_all = async (req, res) => {
   try {
     const users = await User.find()
-    res.clearCookie(`jwToken`);
+    // res.clearCookie(`jwToken`);
     res.json(users)
   } catch (error) {
     res.json({ message: error });
