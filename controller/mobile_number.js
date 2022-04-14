@@ -59,7 +59,7 @@ async function verify_password(req, res) {
              mobile_number_code_jwt,
              process.env.SECRET_KEY,
              {
-               expiresIn: "1h",
+               expiresIn: "4h",
              }
            );
  
@@ -97,7 +97,7 @@ async function verify_password(req, res) {
               mobile_number_code,
               process.env.SECRET_KEY,
               {
-                expiresIn: "1h",
+                expiresIn: "4h",
               }
             );
 
