@@ -154,11 +154,11 @@ const mobile_user_update = async (req, res) => {
       displayImage: req.body.displayImage,
       username : req.body.username
     }
-    const updateUsers = await Mobile.findByIdAndUpdate(
+    await Mobile.findByIdAndUpdate(
       { _id: req.params.id },
       users
     );
-    res.json(updateUsers);
+    res.json({...users,_id: req.params.id });
   }
 
 }
