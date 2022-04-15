@@ -42,7 +42,7 @@ async function verify_password(req, res) {
           mobile_number: req.body.mobile_number,
           password: req.body.password,
           displayImage: "",
-          username : ""
+          username: ""
         });
 
 
@@ -52,32 +52,32 @@ async function verify_password(req, res) {
         }
 
         try {
-         let data =  await mobile_number_code.save()
-         if(data) {
+          let data = await mobile_number_code.save()
+          if (data) {
 
-           const token = jwt.sign(
-             mobile_number_code_jwt,
-             process.env.SECRET_KEY,
-             {
-               expiresIn: "4h",
-             }
-           );
- 
-           res.cookie(`jwToken`, token);
- 
-           // user
-           res.json({
-             "status": true,
-             "data": [{
- 
-               displayImage: mobile_number_code.displayImage,
-               mobile_number: mobile_number_code.mobile_number,
-               userId: mobile_number_code._id,
-               username : mobile_number_code.username,
-               token: token
-             }]
-           });
-         } 
+            const token = jwt.sign(
+              mobile_number_code_jwt,
+              process.env.SECRET_KEY,
+              {
+                expiresIn: "4h",
+              }
+            );
+
+            res.cookie(`jwToken`, token);
+
+            // user
+            res.json({
+              "status": true,
+              "data": [{
+
+                displayImage: mobile_number_code.displayImage,
+                mobile_number: mobile_number_code.mobile_number,
+                userId: mobile_number_code._id,
+                username: mobile_number_code.username,
+                token: token
+              }]
+            });
+          }
 
         } catch (error) {
           // console.log("error", error);
@@ -109,7 +109,7 @@ async function verify_password(req, res) {
               "data": [{
                 displayImage: usersMobileData[0].displayImage,
                 mobile_number: usersMobileData[0].mobile_number,
-                username : usersMobileData[0].username,
+                username: usersMobileData[0].username,
                 userId: usersMobileData[0]._id,
                 token: token
               }]
@@ -152,13 +152,22 @@ const mobile_user_update = async (req, res) => {
       mobile_number: req.body.mobile_number,
       password: req.body.password,
       displayImage: req.body.displayImage,
-      username : req.body.username
+      username: req.body.username
     }
-    await Mobile.findByIdAndUpdate(
+    let userData = await Mobile.findByIdAndUpdate(
       { _id: req.params.id },
       users
     );
-    res.json({...users,_id: req.params.id });
+
+    let value = {
+      _id: req.params.id,
+      mobile_number: users.mobile_number != undefined ? users.mobile_number : userData.mobile_number,
+      password: users.password != undefined ? users.password : userData.password,
+      displayImage: users.displayImage != undefined ? users.displayImage : userData.displayImage,
+      username: users.username != undefined ? users.username : userData.username
+    }
+
+    res.json(value);
   }
 
 }
