@@ -68,6 +68,7 @@ var storage = multer.diskStorage({
         }
 });
 var upload = multer({storage:storage });
-router.post("/profile",auth, upload.single("image"), profile_Controller.userprofile);
+router.post("/profile",upload.single("image"), profile_Controller.userprofile);
+
 
 module.exports = router;
